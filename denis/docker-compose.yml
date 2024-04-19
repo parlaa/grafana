@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "53000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=root
+      - GF_INSTALL_PLUGINS=grafana-telegram-alerts
+    volumes:
+      - ./grafana/volume:/var/lib/grafana
+      - ./grafana/provisioning/:/etc/grafana/provisioning/
+    depends_on:
+      - prometheus
+
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - "59090:9090"
+    volumes:
+      - ./prometheus/volume:/prometheus
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+  blackbox:
+    image: prom/blackbox-exporter:latest
+    container_name: blackbox
+    ports:
+      - 53535:53
+      - 33333:9115
+    command:
+      - --config.file=/etc/blackbox/blackbox.yml
+    volumes:
+      - ./blackbox/blackbox.yml:/etc/blackbox/blackbox.yml
+    restart: always
+
+
