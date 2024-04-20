@@ -1,0 +1,7 @@
+name: 'telegram'
+type: 'telegram'
+isDefault: false
+settings:
+  botToken: '6111695841:AAGT0JWVUZQnHZC2V6kuuTF4LITV6EoAEYk'
+  chatId: '-716053544'
+  includeImage: true
