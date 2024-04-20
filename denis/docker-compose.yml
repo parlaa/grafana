@@ -43,7 +43,7 @@ services:
       - GF_USERS_ALLOW_SIGN_UP=false
     restart: unless-stopped
     ports:
-      - 9115:9115
+      - 3000:3000
   blackbox:
     image: prom/blackbox-exporter:latest
     container_name: blackbox
