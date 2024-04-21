@@ -5,7 +5,6 @@ contactPoints:
   - orgId: 1
     name: cp_1
     receivers:
-        name: 'telegram'
         type: 'telegram'
         isDefault: false
         settings:
