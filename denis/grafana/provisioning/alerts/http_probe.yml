@@ -57,4 +57,5 @@ groups:
 
         annotations:
           summary: "{{ humanize (index $values "B").Value }}"
-
+    notifications:
+      - uid: telegram
