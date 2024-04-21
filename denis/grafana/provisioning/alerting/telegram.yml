@@ -1,11 +1,18 @@
-name: 'telegram'
-type: 'telegram'
-isDefault: false
-settings:
-  bottoken: '6111695841:AAGT0JWVUZQnHZC2V6kuuTF4LITV6EoAEYk'
-  chatid: '-716053544'
-  disable_notification: false
-  disable_web_page_preview: false
-  message: "Alert: {{ .CommonLabels.alertname }}\nValue: {{ .CommonAnnotations.Values }}\nLabels: \n{{ range $key, $value := .CommonLabels }}\n{{ $key }}=\"{{ $value }}\"\n{{ end }}\nState: {{ if eq .Status \"firing\" }}Firing{{ else if eq .Status \"resolved\" }}Resolved{{ end }}  "
-  protect_content: false
-  disableResolveMessage: false
+apiVersion: 1
+
+contactPoints:
+
+  - orgId: 1
+    name: cp_1
+    receivers:
+        name: 'telegram'
+        type: 'telegram'
+        isDefault: false
+        settings:
+          bottoken: '6111695841:AAGT0JWVUZQnHZC2V6kuuTF4LITV6EoAEYk'
+          chatid: '-716053544'
+          disable_notification: false
+          disable_web_page_preview: false
+          message: "Alert: {{ .CommonLabels.alertname }}\nValue: {{ .CommonAnnotations.Values }}\nLabels: \n{{ range $key, $value := .CommonLabels }}\n{{ $key }}=\"{{ $value }}\"\n{{ end }}\nState: {{ if eq .Status \"firing\" }}Firing{{ else if eq .Status \"resolved\" }}Resolved{{ end }}  "
+          protect_content: false
+          disableResolveMessage: false
