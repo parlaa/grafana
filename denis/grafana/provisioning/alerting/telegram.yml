@@ -4,15 +4,8 @@ isDefault: false
 settings:
   bottoken: '6111695841:AAGT0JWVUZQnHZC2V6kuuTF4LITV6EoAEYk'
   chatid: '-716053544'
-  message: |
-   Alert: {{ .CommonLabels.alertname }}
-   Value: {{ .CommonAnnotations.Values }}
-   Labels: 
-   {{ range $key, $value := .CommonLabels }}
-   {{ $key }}="{{ $value }}"
-   {{ end }}
-   State: {{ if eq .Status "firing" }}Firing{{ else if eq .Status "resolved" }}Resolved{{ end }}  
-
-
-
-
+  disable_notification: false
+  disable_web_page_preview: false
+  message: "Alert: {{ .CommonLabels.alertname }}\nValue: {{ .CommonAnnotations.Values }}\nLabels: \n{{ range $key, $value := .CommonLabels }}\n{{ $key }}=\"{{ $value }}\"\n{{ end }}\nState: {{ if eq .Status \"firing\" }}Firing{{ else if eq .Status \"resolved\" }}Resolved{{ end }}  "
+  protect_content: false
+  disableResolveMessage: false

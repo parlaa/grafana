@@ -1,26 +1,26 @@
 apiVersion: 1
 groups:
     - orgId: 1
-      name: Denis-setup
+      name: Denis-setup-eval
       folder: Denis-setup
-      interval: 30s
+      interval: 1m
       rules:
-        - uid: f6b60487-1ade-44e6-a918-4a46b2788720
-          title: Panel Title
+        - uid: bdjf2z4w83dogd
+          title: Status control
           condition: C
           data:
             - refId: A
               relativeTimeRange:
-                from: 21600
+                from: 300
                 to: 0
-              datasourceUid: a2c71fbd-ca97-4caa-aeb3-3d53428ba620
+              datasourceUid: PBFA97CFB590B2093
               model:
                 datasource:
                     type: prometheus
-                    uid: a2c71fbd-ca97-4caa-aeb3-3d53428ba620
+                    uid: PBFA97CFB590B2093
                 disableTextWrap: false
                 editorMode: builder
-                expr: probe_http_status_code{instance="https://control.semiotics-lab.com"}
+                expr: probe_http_status_code{job="blackbox", instance="https://control.semiotics-lab.com"}
                 fullMetaSearch: false
                 includeNullMetadata: true
                 instant: false
@@ -62,8 +62,8 @@ groups:
                 conditions:
                     - evaluator:
                         params:
-                            - 200
-                            - 200
+                            - 100
+                            - 100
                         type: outside_range
                       operator:
                         type: and
@@ -82,9 +82,15 @@ groups:
                 maxDataPoints: 43200
                 refId: C
                 type: threshold
+          dashboardUid: adjbfku2p8ruod
+          panelId: 1
           noDataState: NoData
           execErrState: Error
           for: 1m
+          annotations:
+            __dashboardUid__: adjbfku2p8ruod
+            __panelId__: "1"
+            summary: '{{ humanize (index $values "B").Value }}'
           labels:
             namespace: telegram
           isPaused: false
