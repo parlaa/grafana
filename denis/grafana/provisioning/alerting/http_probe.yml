@@ -1,61 +1,90 @@
-
 apiVersion: 1
-
-
 groups:
-
-  - orgId: 1
-
-    name: telegram
- 
-    folder: sites
-
-    interval: 15s
- 
-    rules:
-      - uid: org
-
-        title: http_probe_rule
-
-        condition: A
-
-        data:
-          - refId: A
-            datasourceUid: 'prometheus'
-            model:
-              conditions:
-                - evaluator:
-                    params:
-                      - 200
-                    type: notequal
-                  operator:
-                    type: and
-                  query:
-                    params:
-                      - probe_http_status_code
-                  reducer:
-                    params:
-                      - last
-                    type: reduce
-                  type: query
-              datasource:
-                type: prometheus
-                uid: prometheus
-              intervalMs: 10000
-              maxDataPoints: 100
-              refId: probe_http_status_code
-              type: query
- 
-        dashboardUid: test-version
-
-        panelId: 1
-
-        noDataState: Alerting
-        execErrState: Alerting
-  
-        for: 15s
-
-        annotations:
-          summary: "{{ humanize (index $values "B").Value }}"
-    notifications:
-      - uid: telegram
+    - orgId: 1
+      name: Denis-setup
+      folder: Denis-setup
+      interval: 30s
+      rules:
+        - uid: f6b60487-1ade-44e6-a918-4a46b2788720
+          title: Panel Title
+          condition: C
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 21600
+                to: 0
+              datasourceUid: a2c71fbd-ca97-4caa-aeb3-3d53428ba620
+              model:
+                datasource:
+                    type: prometheus
+                    uid: a2c71fbd-ca97-4caa-aeb3-3d53428ba620
+                disableTextWrap: false
+                editorMode: builder
+                expr: probe_http_status_code{instance="https://control.semiotics-lab.com"}
+                fullMetaSearch: false
+                includeNullMetadata: true
+                instant: false
+                interval: ""
+                intervalMs: 15000
+                legendFormat: __auto
+                maxDataPoints: 43200
+                range: true
+                refId: A
+                useBackend: false
+            - refId: B
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params: []
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - B
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: A
+                intervalMs: 1000
+                maxDataPoints: 43200
+                reducer: last
+                refId: B
+                type: reduce
+            - refId: C
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params:
+                            - 200
+                            - 200
+                        type: outside_range
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - C
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: B
+                intervalMs: 1000
+                maxDataPoints: 43200
+                refId: C
+                type: threshold
+          noDataState: NoData
+          execErrState: Error
+          for: 1m
+          labels:
+            namespace: telegram
+          isPaused: false
