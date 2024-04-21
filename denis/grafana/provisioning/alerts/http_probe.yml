@@ -1,0 +1,60 @@
+
+apiVersion: 1
+
+
+groups:
+
+  - orgId: 1
+
+    name: telegram
+ 
+    folder: sites
+
+    interval: 15s
+ 
+    rules:
+      - uid: org
+
+        title: http_probe_rule
+
+        condition: A
+
+        data:
+          - refId: A
+            datasourceUid: 'prometheus'
+            model:
+              conditions:
+                - evaluator:
+                    params:
+                      - 200
+                    type: notequal
+                  operator:
+                    type: and
+                  query:
+                    params:
+                      - probe_http_status_code
+                  reducer:
+                    params:
+                      - last
+                    type: reduce
+                  type: query
+              datasource:
+                type: prometheus
+                uid: prometheus
+              intervalMs: 10000
+              maxDataPoints: 100
+              refId: probe_http_status_code
+              type: query
+ 
+        dashboardUid: test-version
+
+        panelId: 1
+
+        noDataState: Alerting
+        execErrState: Alerting
+  
+        for: 15s
+
+        annotations:
+          summary: "{{ humanize (index $values "B").Value }}"
+

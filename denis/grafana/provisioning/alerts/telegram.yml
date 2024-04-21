@@ -5,3 +5,15 @@ settings:
   botToken: '6111695841:AAGT0JWVUZQnHZC2V6kuuTF4LITV6EoAEYk'
   chatId: '-716053544'
   includeImage: true
+  message: |
+   Alert: {{ .CommonLabels.alertname }}
+   Value: {{ .CommonAnnotations.Values }}
+   Labels: 
+   {{ range $key, $value := .CommonLabels }}
+   {{ $key }}="{{ $value }}"
+   {{ end }}
+   State: {{ if eq .Status "firing" }}Firing{{ else if eq .Status "resolved" }}Resolved{{ end }}  
+
+
+
+
